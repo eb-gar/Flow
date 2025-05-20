@@ -18,6 +18,7 @@ import {
   eyeOffOutline 
 } from 'ionicons/icons';
 import { Router } from '@angular/router';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-login',
@@ -34,6 +35,17 @@ import { Router } from '@angular/router';
     IonButton, 
     IonIcon,
     FormsModule
+  ],
+  animations: [
+    trigger('fade', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms ease-in', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-out', style({ opacity: 0 }))
+      ])
+    ])
   ]
 })
 export class LoginPage {
@@ -59,9 +71,6 @@ export class LoginPage {
       console.error('Por favor completa todos los campos');
       return;
     }
-
-    console.log('Email:', this.email);
-    console.log('Password:', this.password);
 
     localStorage.setItem('token', 'fake-token');
     this.router.navigateByUrl('/home', { replaceUrl: true });
