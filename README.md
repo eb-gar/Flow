@@ -1,32 +1,142 @@
-# Aplicación Ionic + Angular
+## README.md Completo
 
-Este proyecto es una aplicación móvil desarrollada con Angular e Ionic Framework, que incluye autenticación, navegación entre páginas y una estructura modular con lazy loading.
+```markdown
+# Aplicación Ionic con Autenticación
 
----
+![Logo de la Aplicación](assets/images/logo.png)
 
-## 📱 Características
+Aplicación móvil desarrollada con Ionic 7 y Angular que implementa un sistema de autenticación con guardias de ruta.
 
-- Autenticación simulada con token almacenado en `localStorage`.
-- Páginas incluidas: `Login`, `Home`, `Profile`.
-- Navegación protegida con `AuthGuard`.
-- Diseño responsive listo para dispositivos móviles.
-- Animaciones con `@angular/animations`.
-- Navegación híbrida con `Angular Router` y `NavController`.
+## 🚀 Características principales
 
----
+- Autenticación basada en token JWT simulado
+- Navegación híbrida (Angular Router + Ionic NavController)
+- Módulos lazy-loading para mejor performance
+- Animaciones entre transiciones
+- Protección de rutas con AuthGuard
 
-## 🔧 Tecnologías Usadas
+## 🛠 Estructura del Proyecto
 
-- [Angular](https://angular.io/)
-- [Ionic Framework](https://ionicframework.com/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Ionic Angular Standalone Components](https://ionicframework.com/docs/angular/standalone-components)
+```
+src/
+├── app/
+│   ├── auth/
+│   │   ├── login/
+│   │   ├── register/
+│   │   └── auth.guard.ts
+│   ├── tabs/
+│   │   ├── home/
+│   │   ├── profile/
+│   │   └── settings/
+│   └── shared/
+│       ├── components/
+│       └── services/
+├── assets/
+└── environments/
+```
 
----
+## 🔐 Sistema de Autenticación
 
-## 🚀 Instalación y ejecución
+### AuthGuard Implementation
 
-1. **Clona el repositorio**  
+El guardián de ruta verifica la presencia del token en `localStorage`:
+
+```typescript
+canActivate(): boolean {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    this.navCtrl.navigateRoot('/auth');
+    return false;
+  }
+  return true;
+}
+```
+
+### Flujo de autenticación
+
+1. Usuario ingresa credenciales
+2. Servicio simula login exitoso:
+   ```typescript
+   login() {
+     localStorage.setItem('token', 'fake-jwt-token');
+     this.navCtrl.navigateRoot('/tabs');
+   }
+   ```
+3. Rutas protegidas verifican token
+
+## 🧪 Testing
+
+Pruebas unitarias implementadas:
+
+```typescript
+describe('AuthGuard', () => {
+  let guard: AuthGuard;
+  let routerSpy: jasmine.SpyObj<Router>;
+  let navCtrlSpy: jasmine.SpyObj<NavController>;
+
+  beforeEach(() => {
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    navCtrlSpy = jasmine.createSpyObj('NavController', ['navigateRoot']);
+    guard = new AuthGuard(routerSpy, navCtrlSpy);
+  });
+
+  it('should allow access when token exists', () => {
+    localStorage.setItem('token', 'test-token');
+    expect(guard.canActivate()).toBeTrue();
+  });
+
+  it('should redirect to auth when no token', () => {
+    localStorage.removeItem('token');
+    expect(guard.canActivate()).toBeFalse();
+    expect(navCtrlSpy.navigateRoot).toHaveBeenCalledWith('/auth');
+  });
+});
+```
+
+## 🚦 Cómo Usar
+
+1. Instalar dependencias:
    ```bash
-   git clone https://github.com/tuusuario/nombre-repo.git
-   cd nombre-repo
+   npm install
+   ```
+
+2. Ejecutar en desarrollo:
+   ```bash
+   ionic serve
+   ```
+
+3. Generar build de producción:
+   ```bash
+   ionic build --prod
+   ```
+
+4. Ejecutar pruebas:
+   ```bash
+   npm test
+   ```
+
+## 🤖 Tecnologías Utilizadas
+
+- Ionic 7
+- Angular 16+
+- TypeScript 5+
+- RxJS
+- Jasmine/Karma (Testing)
+
+## 📌 Decisiones Técnicas
+
+1. **Navegación Híbrida**:
+   - Combina `Angular Router` para lógica de navegación
+   - Usa `NavController` para transiciones nativas
+
+2. **Gestión de Estado**:
+   - `localStorage` para simular autenticación
+   - Patrón de servicios reactivos
+
+3. **Performance**:
+   - Módulos lazy-loading
+   - Componentes standalone
+
+4. **Seguridad**:
+   - Guardias de ruta
+   - Protección de rutas sensibles

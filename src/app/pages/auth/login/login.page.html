@@ -1,13 +1,50 @@
-<ion-content [@fade]>
+<ion-content [@fade] class="login-page">
   <ion-header>
-    <ion-toolbar>
-      <ion-title>Login</ion-title>
+    <ion-toolbar color="primary">
+      <ion-title>Iniciar Sesión</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-content class="ion-padding">
-    <ion-input placeholder="Usuario"></ion-input>
-    <ion-input type="password" placeholder="Contraseña"></ion-input>
-    <ion-button expand="block" (click)="login()">Iniciar sesión</ion-button>
-  </ion-content>
+  <div class="login-container">
+    <div class="input-section email-section">
+      <ion-item lines="none" class="input-item">
+        <ion-icon slot="start" name="mail-outline" color="primary"></ion-icon>
+        <ion-input 
+          label="Correo Electrónico" 
+          labelPlacement="floating" 
+          placeholder="tucorreo@ejemplo.com"
+          type="email"
+          [(ngModel)]="email"
+          class="custom-input">
+        </ion-input>
+      </ion-item>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="input-section password-section">
+      <ion-item lines="none" class="input-item">
+        <ion-icon slot="start" name="lock-closed-outline" color="primary"></ion-icon>
+        <ion-input 
+          label="Contraseña" 
+          labelPlacement="floating" 
+          placeholder="Ingresa tu contraseña"
+          [type]="showPassword ? 'text' : 'password'"
+          [(ngModel)]="password"
+          class="custom-input">
+        </ion-input>
+        <ion-button fill="clear" slot="end" (click)="togglePassword()">
+          <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </div>
+
+    <ion-button 
+      expand="block" 
+      shape="round" 
+      class="login-button"
+      (click)="login()">
+      Iniciar Sesión
+    </ion-button>
+  </div>
 </ion-content>

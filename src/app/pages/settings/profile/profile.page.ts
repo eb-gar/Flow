@@ -1,24 +1,53 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { NavController } from '@ionic/angular';
-import { RouterLink } from '@angular/router';
+import { Component } from '@angular/core';
+import { 
+  IonHeader, 
+  IonToolbar, 
+  IonTitle, 
+  IonContent, 
+  IonBackButton, 
+  IonButtons,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  IonItem,
+  IonIcon,
+  IonLabel
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { 
+  sparkles,
+  mailOutline,
+  calendarOutline
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [
+    IonHeader, 
+    IonToolbar, 
+    IonTitle, 
+    IonContent,
+    IonBackButton,
+    IonButtons,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    IonItem,
+    IonIcon,
+    IonLabel
+  ]
 })
 export class ProfilePage {
-
-  constructor(private navCtrl: NavController) { }
-
-  logout() {
-    localStorage.removeItem('token');
-    this.navCtrl.navigateRoot('/home');
+  constructor() {
+    addIcons({ 
+      sparkles,
+      mailOutline,
+      calendarOutline
+    });
   }
-
 }
